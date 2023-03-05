@@ -4,7 +4,9 @@ import Head from "next/head";
 import Link from "next/link";
 import * as Yup from "yup";
 import Input from "@/components/FormInput/Input";
-import { useAuthDispatch } from "@/context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { signupUser } from "@/redux/user/userActions";
+import Router from "next/router";
 
 const initialValues = {
     name: "",
@@ -34,14 +36,13 @@ const validationSchema = Yup.object({
 });
 
 const Signup = () => {
-
-    const dispatch = useAuthDispatch();
-
+    const { user, loading, error } = useSelector((state) => state.userSignup);
+    const dispatch = useDispatch();
     const onSubmit = (values) => {
-        const {confirmPassword , ...value} = values;
-        dispatch({ type: "SIGNUP", values: value });
+        const { confirmPassword, ...value } = values;
+        dispatch(signupUser(value));
     };
-
+    // console.log(Router.router?.state?.query) querys
     const formik = useFormik({
         initialValues,
         onSubmit,
@@ -55,7 +56,10 @@ const Signup = () => {
                 <title>My Website - SignUp</title>
             </Head>
             <div className="md:max-w-md px-4 container mx-auto">
-                <form onSubmit={formik.handleSubmit} className="flex flex-col space-y-4">
+                <form
+                    onSubmit={formik.handleSubmit}
+                    className="flex flex-col space-y-4"
+                >
                     <h1 className="font-black text-2xl text-violet-700 mb-4">
                         ثبت نام
                     </h1>
@@ -86,10 +90,10 @@ const Signup = () => {
                     />
                     <button
                         type="submit"
-                        disabled={!formik.isValid}
+                        disabled={!formik.isValid || loading ? true : false}
                         className="w-full py-2 rounded-lg bg-violet-800 text-white"
                     >
-                        ثبت نام
+                        {loading ? "در حال انجام درخواست ... " : "ثبت نام"}
                     </button>
                     <Link href="/signup">
                         <p className="mt-4 py-4 cursor-pointer">

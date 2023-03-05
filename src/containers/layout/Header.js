@@ -1,9 +1,14 @@
-import { useAuth, useAuthDispatch } from "@/context/AuthContext";
+
+import { signoutUser } from "@/redux/user/userActions";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
-    const { user, loading } = useAuth();
-    const dispatch = useAuthDispatch() ;
+
+    const dispatch = useDispatch() ;
+    const userInfo = useSelector(state => state.userSignin)
+    const {loading , user} = userInfo ;
+    console.log(loading)
 
     return (
         <header className="bg-white shadow-md py-2 mb-8">
@@ -32,7 +37,7 @@ const Header = () => {
                                         خوش آمدی {user.name}
                                     </div>
                                 </Link>
-                                <div className="cursor-pointer" onClick={()=>dispatch({type:"SIGNOUT"})}>
+                                <div className="cursor-pointer" onClick={()=>dispatch(signoutUser())}>
                                     خروج
                                 </div>
                             </>

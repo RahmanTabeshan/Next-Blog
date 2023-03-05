@@ -4,8 +4,9 @@ import Head from "next/head";
 import Link from "next/link";
 import * as Yup from "yup";
 import Input from "@/components/FormInput/Input";
-import { useAuth, useAuthDispatch } from "@/context/AuthContext";
 import Router, { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux" ;
+import { signinUser } from "@/redux/user/userActions";
 
 const initialValues = {
     email: "",
@@ -22,13 +23,13 @@ const validationSchema = Yup.object({
 
 const RegisterForm = () => {
 
-    const {loading,error,user} = useAuth() ;
-    const dispatch = useAuthDispatch();
+    const {loading , user , error} = useSelector(state => state.userSignin) ;
+    const dispatch = useDispatch() ;
     const router = useRouter();
 
     const onSubmit = (values) => {
         const { email, password } = values;
-        dispatch({ type: "SIGNIN", values });
+        dispatch(signinUser({email , password})) ;
     };
 
     const formik = useFormik({

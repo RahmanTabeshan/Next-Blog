@@ -5,6 +5,7 @@
             "@/components/*": ["src/components/*"],
             "@/containers/*": ["src/containers/*"],
             "@/context/*": ["src/context/*"],
+            "@/redux/*": ["src/redux/*"],
             "@/hooks/*": ["src/hooks/*"],
             "@/common/*": ["src/common/*"],
             "@/utils/*": ["src/utils/*"],

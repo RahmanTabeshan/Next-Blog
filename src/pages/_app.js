@@ -1,10 +1,22 @@
-import AuthProvider from "@/context/AuthContext";
+import { loadUser } from "@/redux/user/userActions";
+import { useEffect } from "react";
+import { Provider, useDispatch } from "react-redux";
+import { wrapper } from "src/redux/Store";
 import "../../styles/globals.css";
 
-export default function App({ Component, pageProps }) {
+function App({ Component, pageProps }) {
+    const { store, props } = wrapper.useWrappedStore(pageProps);
+
+    useEffect(()=>{
+        loadUser(store) ;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
+    
     return (
-        <AuthProvider>
-            <Component {...pageProps} />
-        </AuthProvider>
+        <Provider store={store}>
+            <Component {...props} />
+        </Provider>
     );
 }
+
+export default App;

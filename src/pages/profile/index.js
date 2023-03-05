@@ -1,11 +1,9 @@
 import Layout from "@/containers/layout/Layout";
-import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-    const {user} = useAuth() ;
-    const router = useRouter() ;
-    console.log(router.query);
+    const {user} = useSelector(state => state.userSignin) ;
+
     return (
         <Layout>
             <div>{user?.name}</div>
